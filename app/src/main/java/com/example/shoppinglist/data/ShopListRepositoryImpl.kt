@@ -18,7 +18,7 @@ object ShopListRepositoryImpl : ShopListRepository {
 
     init {
         repeat(100) {
-            addShopItem(ShopItem("Item $it", 1, true))
+            addShopItem(ShopItem("Item $it", 1, it % 2 == 0))
         }
     }
 
