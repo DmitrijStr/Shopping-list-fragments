@@ -29,6 +29,7 @@
         android:contentDescription="@string/add_new_shop_item"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
