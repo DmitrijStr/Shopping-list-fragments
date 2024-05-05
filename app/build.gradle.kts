@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.shoppinglist"
+    namespace = "com.strezh.shoppinglist"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.shoppinglist"
+        applicationId = "com.strezh.shoppinglist"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
