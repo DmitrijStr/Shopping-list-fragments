@@ -1,13 +1,13 @@
-package com.example.shoppinglist.presentation
+package com.strezh.shoppinglist.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.shoppinglist.data.ShopListRepositoryImpl
-import com.example.shoppinglist.domain.AddShopItemUseCase
-import com.example.shoppinglist.domain.EditShopItemUseCase
-import com.example.shoppinglist.domain.GetShopItemUseCase
-import com.example.shoppinglist.domain.ShopItem
+import com.strezh.shoppinglist.data.ShopListRepositoryImpl
+import com.strezh.shoppinglist.domain.AddShopItemUseCase
+import com.strezh.shoppinglist.domain.EditShopItemUseCase
+import com.strezh.shoppinglist.domain.GetShopItemUseCase
+import com.strezh.shoppinglist.domain.ShopItem
 import java.lang.NumberFormatException
 
 class ShopItemViewModel : ViewModel() {

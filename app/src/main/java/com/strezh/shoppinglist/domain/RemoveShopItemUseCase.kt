@@ -1,4 +1,4 @@
-package com.example.shoppinglist.domain
+package com.strezh.shoppinglist.domain
 
 class RemoveShopItemUseCase(private val repository: ShopListRepository) {
 
