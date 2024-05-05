@@ -13,10 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputLayout
 import com.strezh.shoppinglist.R
 
-class ShopItemFragment(
-    val mode: String,
-    val itemId: Int = -1
-) : Fragment() {
+class ShopItemFragment : Fragment() {
     private lateinit var viewModel: ShopItemViewModel
     private lateinit var tilEditName: TextInputLayout
     private lateinit var tilEditCount: TextInputLayout
@@ -24,8 +21,13 @@ class ShopItemFragment(
     private lateinit var editCount: EditText
     private lateinit var buttonSave: Button
 
-//    private var screenMode = MODE_UNKNOWN
-//    private var shopItemId = UNDEFINED_ID
+    private var screenMode = MODE_UNKNOWN
+    private var shopItemId = UNDEFINED_ID
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        parseParams()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,9 +70,31 @@ class ShopItemFragment(
     }
 
     private fun setMode() {
-        when (mode) {
+        when (screenMode) {
             MODE_ADD -> launchAddMode()
             MODE_EDIT -> launchEditMode()
+        }
+    }
+
+    private fun parseParams() {
+        val args = requireArguments()
+
+        if (!args.containsKey(SCREEN_MODE)) {
+            throw RuntimeException("Param screen mode is absent")
+        }
+        val mode = args.getString(SCREEN_MODE)
+
+        if (mode != MODE_EDIT && mode != MODE_ADD) {
+            throw RuntimeException("Unknown screen mode $mode")
+        }
+
+        screenMode = mode
+
+        if (screenMode == MODE_EDIT) {
+            if (!args.containsKey(SHOP_ITEM_ID)) {
+                throw RuntimeException("Param shop item id is absent")
+            }
+            shopItemId = args.getInt(SHOP_ITEM_ID, UNDEFINED_ID)
         }
     }
 
@@ -98,7 +122,7 @@ class ShopItemFragment(
     }
 
     private fun launchEditMode() {
-        viewModel.getShopItem(itemId)
+        viewModel.getShopItem(shopItemId)
 
         viewModel.shopItem.observe(viewLifecycleOwner) {
             editName.setText(it.name)
@@ -118,19 +142,27 @@ class ShopItemFragment(
     }
 
     companion object {
-        private const val EXTRA_SCREEN_MODE = "extra_mode"
-        private const val EXTRA_SHOP_ITEM_ID = "extra_shop_item_id"
+        private const val SCREEN_MODE = "extra_mode"
+        private const val SHOP_ITEM_ID = "extra_shop_item_id"
         private const val MODE_EDIT = "mode_edit"
         private const val MODE_ADD = "mode_add"
         private const val MODE_UNKNOWN = ""
         private const val UNDEFINED_ID = -1
 
-        fun newInstanceAddItem() : ShopItemFragment {
-            return ShopItemFragment(MODE_ADD)
+        fun newInstanceAddItem(): ShopItemFragment {
+            val args = Bundle().apply {
+                putString(SCREEN_MODE, MODE_ADD)
+            }
+            return ShopItemFragment().apply { arguments = args }
         }
 
-        fun newInstanceEditItem(itemId: Int) : ShopItemFragment {
-            return ShopItemFragment(MODE_EDIT, itemId)
+        fun newInstanceEditItem(itemId: Int): ShopItemFragment {
+            val args = Bundle().apply {
+                putString(SCREEN_MODE, MODE_EDIT)
+                putInt(SHOP_ITEM_ID, itemId)
+            }
+
+            return ShopItemFragment().apply { arguments = args }
         }
     }
 }
