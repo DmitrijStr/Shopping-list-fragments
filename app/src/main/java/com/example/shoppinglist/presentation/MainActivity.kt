@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +22,10 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
+        }
+        val buttonAddShopItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
+        buttonAddShopItem.setOnClickListener {
+            startActivity(ShopItemActivity.newIntentAddItem(this))
         }
     }
 
@@ -43,8 +48,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSwipeListener(rvShopList: RecyclerView?) {
-        val swipeCb = object :
-            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+        val swipeCb = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -62,11 +69,15 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
 
-    private fun setupLongClickListener() {
-        shopListAdapter.onShopItemClickListener = { }
+    private fun setupClickListener() {
+        shopListAdapter.onShopItemClickListener = {
+            startActivity(ShopItemActivity.newIntentEditItem(this, it.id))
+        }
     }
 
-    private fun setupClickListener() {
-        shopListAdapter.onShopItemLongClickListener = { viewModel.changeEnabledState(it) }
+    private fun setupLongClickListener() {
+        shopListAdapter.onShopItemLongClickListener = {
+            viewModel.changeEnabledState(it)
+        }
     }
 }

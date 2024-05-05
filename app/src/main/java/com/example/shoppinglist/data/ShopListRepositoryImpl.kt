@@ -17,7 +17,7 @@ object ShopListRepositoryImpl : ShopListRepository {
     private var currId = 0
 
     init {
-        repeat(100) {
+        repeat(10) {
             addShopItem(ShopItem("Item $it", 1, it % 2 == 0))
         }
     }
