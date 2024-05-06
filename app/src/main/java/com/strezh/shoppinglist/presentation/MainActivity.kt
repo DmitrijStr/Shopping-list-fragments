@@ -2,6 +2,7 @@ package com.strezh.shoppinglist.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.strezh.shoppinglist.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
@@ -104,5 +105,10 @@ class MainActivity : AppCompatActivity() {
         shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeEnabledState(it)
         }
+    }
+
+    override fun onEditingFinish() {
+        supportFragmentManager.popBackStack()
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
     }
 }
