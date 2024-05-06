@@ -1,7 +1,10 @@
 package com.strezh.shoppinglist.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -12,20 +15,28 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
+    private var fragmentContainer: FragmentContainerView? = null
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        fragmentContainer = findViewById(R.id.shop_item_container)
         setupRecyclerView()
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
         }
+
         val buttonAddShopItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
         buttonAddShopItem.setOnClickListener {
-            startActivity(ShopItemActivity.newIntentAddItem(this))
+            if (isLandscapeMode()) {
+                launchFragment(ShopItemFragment.newInstanceAddItem())
+            } else {
+                startActivity(ShopItemActivity.newIntentAddItem(this))
+            }
         }
     }
 
@@ -69,9 +80,23 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
 
+    private fun isLandscapeMode() = fragmentContainer != null
+
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.shop_item_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
-            startActivity(ShopItemActivity.newIntentEditItem(this, it.id))
+            if (isLandscapeMode()) {
+                launchFragment(ShopItemFragment.newInstanceEditItem(it.id))
+            } else {
+                startActivity(ShopItemActivity.newIntentEditItem(this, it.id))
+            }
         }
     }
 
