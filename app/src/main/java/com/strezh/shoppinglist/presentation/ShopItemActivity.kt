@@ -3,10 +3,11 @@ package com.strezh.shoppinglist.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.strezh.shoppinglist.R
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = UNDEFINED_ID
 
@@ -76,5 +77,10 @@ class ShopItemActivity : AppCompatActivity() {
 
             return intent
         }
+    }
+
+    override fun onEditingFinish() {
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        finish()
     }
 }
