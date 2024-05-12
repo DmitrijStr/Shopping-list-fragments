@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.coroutines.android)
     implementation(libs.viewmodel.ktx)
     implementation(libs.runtime.ktx)
-    implementation(libs.room.compiler)
+    kapt(libs.room.compiler)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
 

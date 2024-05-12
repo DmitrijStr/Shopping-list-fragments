@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,9 +28,8 @@ class ShopItemFragment : Fragment() {
     private var shopItemId = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
 
-        Log.d("ShopItemFragment", "onAttach")
+        super.onAttach(context)
 
         if ((context is OnEditingFinishListener)) {
             onEditingFinishListener = context
@@ -41,7 +39,6 @@ class ShopItemFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("ShopItemFragment", "onCreate")
 
         super.onCreate(savedInstanceState)
         parseParams()
@@ -52,7 +49,6 @@ class ShopItemFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("ShopItemFragment", "onCreateView")
 
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         return inflater.inflate(R.layout.fragment_shop_item, container, false)
@@ -60,58 +56,12 @@ class ShopItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("ShopItemFragment", "onViewCreated")
 
         initViews(view)
         setMode()
         observeViewModel()
         addTextChangeListeners()
     }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("ShopItemFragment", "onStart")
-
-    }
-    override fun onResume() {
-        super.onResume()
-        Log.d("ShopItemFragment", "onResume")
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("ShopItemFragment", "onPause")
-
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("ShopItemFragment", "onStop")
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("ShopItemFragment", "onDestroyView")
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("ShopItemFragment", "onDestroy")
-
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.d("ShopItemFragment", "onDetach")
-
-    }
-
-
-
-
 
     private fun addTextChangeListeners() {
         editName.addTextChangedListener(object : TextWatcher {
