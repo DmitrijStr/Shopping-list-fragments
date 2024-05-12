@@ -2,7 +2,6 @@ package com.strezh.shoppinglist.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.strezh.shoppinglist.data.ShopListRepositoryImpl
 import com.strezh.shoppinglist.domain.EditShopItemUseCase
